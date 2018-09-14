@@ -3,12 +3,12 @@ from imooc.settings import EMAIL_FROM,ACTIVATE_URL
 import string,random
 from users.models import EmailVerifyRecord
 
-def send_register_email(email):
+def send_email(email,type_name):
     subject = "账号激活"
     code = random_code(length=20)
-    record = EmailVerifyRecord(code=code,email=email,send_type="register")
+    record = EmailVerifyRecord(code=code,email=email,send_type=type_name)
     record.save()
-    path = 'activate/'+code
+    path = type_name+'/'+code
     body = "请点击以下链接用于激活你的账号:{}".format(ACTIVATE_URL+path)
     send_mail(subject=subject,
                 message=body,

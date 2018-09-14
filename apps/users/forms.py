@@ -101,3 +101,51 @@ class RegisterForm(forms.Form):
         
         return cleaned_data
 
+class ForgetPasswordForm(forms.Form):
+    new_password = forms.CharField(required=True,
+                                widget=forms.PasswordInput(attrs={
+                                    "type":"password",
+                                    "id":"id_password",
+                                    "name":"password",
+                                    "placeholder":"请输入6-20位非中文字符密码"
+                                }),
+                                min_length=8,
+                                max_length=20,
+                                error_messages={
+                                    "required":"密码不能为空",
+                                    "min_length":"不能少于8个字符",
+                                    "max_length":"不能多于20个字符"
+                                }
+    new_password2 = forms.CharField(required=True,
+                                widget=forms.PasswordInput(attrs={
+                                    "type":"password",
+                                    "id":"id_password2",
+                                    "name":"password2",
+                                    "placeholder":"请输入6-20位非中文字符密码"
+                                }),
+                                max_length=20,
+                                min_length=8,
+                                error_messages={
+                                    "required":"密码不能为空",
+                                    "min_length":"不能少于8个字符",
+                                    "max_length":"不能多于20个字符"
+                                }
+class SendEmailForResetPasswdForm(forms.Form):
+    email = forms.EmailField(required=True,
+                            widget = forms.TextInput(
+                                attrs={
+                                    "type":"text",
+                                    "id":"id_email",
+                                    "name":"email",
+                                    "placeholder":"请输入您的邮箱地址",
+                                }
+                            ),
+                            error_messages={
+                                "required":"email不能为空",                               
+                            })
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        user = UserProfile.objects.filter(email=email)
+        if not user:
+            raise ValidationError('')

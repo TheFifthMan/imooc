@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include,re_path
 from django.views.generic import TemplateView
-from users.views import LoginView,IndexView,RegisterView,LogoutView,ActivateView
+from users.views import LoginView,IndexView,RegisterView,LogoutView,ActivateView,ForgetPasswordView
 
 
 urlpatterns = [
@@ -26,5 +26,6 @@ urlpatterns = [
     path('logout/',LogoutView.as_view(),name='logout'),
     path('register/',RegisterView.as_view(),name='register'),
     path('captcha/', include('captcha.urls')),
-    re_path(r'^activate/(?P<activate_code>\w+)$',ActivateView.as_view(),name='activate'),
+    re_path(r'^register/(?P<activate_code>\w+)$',ActivateView.as_view(),name='activate'),
+    re_path(r'^forget/(?P<code>\w+)$',ForgetPasswordView.as_view(),name='forget_password'),    
 ]
