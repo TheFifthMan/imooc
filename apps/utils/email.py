@@ -3,8 +3,8 @@ from imooc.settings import EMAIL_FROM,ACTIVATE_URL
 import string,random
 from users.models import EmailVerifyRecord
 
-def send_email(email,type_name):
-    subject = "账号激活"
+def send_email(email,subject,type_name):
+    subject = subject
     code = random_code(length=20)
     record = EmailVerifyRecord(code=code,email=email,send_type=type_name)
     record.save()

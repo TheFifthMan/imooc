@@ -24,13 +24,13 @@ class CustomAuthBackend(ModelBackend):
 # 首页
 class IndexView(View):
     def get(self,request):
-        return render(request,'index.html')
+        return render(request,'index.html',{'title':'首页'})
 
 # 用于注册用户
 class RegisterView(View):
     def get(self,request):
         form = RegisterForm()
-        return render(request,"register.html",{"form":form})
+        return render(request,"register.html",{"form":form,'title':'在线注册'})
     
     def post(self,request):
         form = RegisterForm(data=request.POST)
@@ -42,33 +42,33 @@ class RegisterView(View):
             user.set_password(password)
             user.is_active = False
             user.save()
-            send_email(email,'register')
+            send_email(email,'激活邮件',type_name='register')
             return redirect(reverse('login'))
         else:
-            return render(request,"register.html",{'form':form})
+            return render(request,"register.html",{'form':form,'title':'在线注册'})
 
 # 填入邮件地址，用于发送邮件
-class SendEmailForResetPasswdView(View):
-    def get(self):
+class ForgetPasswordView(View):
+    def get(self,request):
         form = SendEmailForResetPasswdForm()
-        return render(request,'send_email_for_reset_passwd.html',{'form':form})
+        return render(request,'forgetpwd.html',{'form':form,'title':'忘记密码'})
 
-    def  post(self):
+    def  post(self,request):
         form = SendEmailForResetPasswdForm(data=request.POST)
         email = request.POST.get('email','')
         if form.is_valid():
-            send_email(email,type_name="forget")
+            send_email(email,'重置密码',type_name="forget")
         
         return HttpResponse("已经发送成功，请注意查收邮件")
 
 # 用于重置密码
-class ForgetPasswordView(View):
+class PasswordReset(View):
     def get(self,request,code):
         try:
             record = EmailVerifyRecord.objects.get(code=code)
-            if record.send_type == 'forget' and record.is_used = False:
+            if record.send_type == 'forget' and record.is_used == False:
                 form = ForgetPasswordForm()
-                return render(request,'forget_password.html',{"form":form})
+                return render(request,'password_reset.html',{"form":form,'title':'密码重置'})
         except Exception as e:
             pass
 
@@ -77,7 +77,7 @@ class ForgetPasswordView(View):
     def post(self,request,code):
         form = ForgetPasswordForm(data=request.POST)
         record = EmailVerifyRecord.objects.get(code=code)
-        if form.is_valid() and record.is_used = False:
+        if form.is_valid() and record.is_used == False:
             user = UserProfile.objects.get(email=record.email)
             new_password = request.POST.get('new_password','')
             user.set_password(new_password)
@@ -86,7 +86,7 @@ class ForgetPasswordView(View):
             record.save()
             return redirect(reverse('login'))
         
-        return redirect(reverse('forget_password'))
+        return redirect(reverse('password_reset'))
 
 # 用于激活用户
 class ActivateView(View):
@@ -115,7 +115,7 @@ class LogoutView(View):
 class LoginView(View):
     def get(self,request):
         form = LoginForm()
-        return render(request,'login.html',{"form":form})
+        return render(request,'login.html',{"form":form,'title':'在线登录'})
     
     def post(self,request):
         # 把表单数据传入验证
@@ -128,4 +128,4 @@ class LoginView(View):
                 login(request,user)
                 return redirect(reverse("index"))
            
-        return render(request,'login.html',{'form':form})
+        return render(request,'login.html',{'form':form,'title':'在线登录'})

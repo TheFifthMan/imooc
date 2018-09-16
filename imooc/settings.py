@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -135,10 +136,12 @@ STATICFILES_DIRS = [
 
 
 EMAIL_HOST = 'smtp.163.com'
-EMAIL_HOST_USER = os.env.get('MAIL_USERNAME')
-EMAIL_HOST_PASSWORD = os.env.get('MAIL_USERNAME')  #邮箱的授权码而非密码
+EMAIL_HOST_USER = os.environ.get('MAIL_USERNAME')
+EMAIL_HOST_PASSWORD = os.environ.get('TOKEN')  #邮箱的授权码而非密码
 EMAIL_PORT = 465
 EMAIL_USE_SSL = True
-EMAIL_FROM= os.env.get('MAIL_USERNAME')
+EMAIL_FROM= os.environ.get('MAIL_USERNAME')
 
 ACTIVATE_URL = "http://127.0.0.1:8000/"
+MEDIA_URL='/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')

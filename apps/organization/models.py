@@ -1,11 +1,24 @@
 from django.db import models
 
 # Create your models here.
+class OrgType(models.Model):
+    name = models.CharField(max_length=20,verbose_name="机构类别")
+    add_time = models.DateTimeField(auto_created=True)
+    org = models.ForeignKey('CourseOrganization',on_delete=models.CASCADE,related_name='org_type')
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'org_type'
+        verbose_name = '机构类别'
+        verbose_name_plural = verbose_name
+
 class CourseOrganization(models.Model):
     name = models.CharField(max_length=50,verbose_name='课程组织名字')
     desc = models.TextField(verbose_name="组织描述")
-    click_num = models.IntegerField(verbose_name="点击次数")
-    fav_nums = models.IntegerField(verbose_name="收藏次数")
+    click_num = models.IntegerField(default=0,verbose_name="点击次数")
+    fav_nums = models.IntegerField(default=0,verbose_name="收藏次数")
     image = models.ImageField(upload_to='images/org/%Y/%m/%d',default='images/org/default.jpg')
     address = models.CharField(max_length=150,verbose_name="地址")
     city = models.ForeignKey('CityDict',on_delete=models.CASCADE,related_name='organizations',verbose_name="所属城市")

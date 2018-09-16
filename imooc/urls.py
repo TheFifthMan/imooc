@@ -16,8 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include,re_path
 from django.views.generic import TemplateView
-from users.views import LoginView,IndexView,RegisterView,LogoutView,ActivateView,ForgetPasswordView
-
+from users.views import LoginView,IndexView,RegisterView,LogoutView,ActivateView,PasswordReset,ForgetPasswordView
+from organization.views import OrgListView
+from imooc.settings import MEDIA_ROOT
+from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +29,9 @@ urlpatterns = [
     path('register/',RegisterView.as_view(),name='register'),
     path('captcha/', include('captcha.urls')),
     re_path(r'^register/(?P<activate_code>\w+)$',ActivateView.as_view(),name='activate'),
-    re_path(r'^forget/(?P<code>\w+)$',ForgetPasswordView.as_view(),name='forget_password'),    
+    re_path(r'^forget/(?P<code>\w+)$',PasswordReset.as_view(),name='password_reset'),
+    path('forgetpwd',ForgetPasswordView.as_view(),name='forgetpwd'),
+    path('orglist/',OrgListView.as_view(),name='orglist'),
+    re_path(r'media/(?P<path>.*)$',serve,{'document_root':MEDIA_ROOT}),
+
 ]
