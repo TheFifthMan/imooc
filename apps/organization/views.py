@@ -17,7 +17,7 @@ class OrgListView(View):
         result = paginator.page(page)
         org_count = org_list.count()
         course_count = Course.objects.all().count()
-        user_count = UserPorfile.objects.all().count()
+        user_count = UserProfile.objects.all().count()
         return render(request,'org-list.html',
                             {'city_list':city_list,
                             'org_type_list':org_type_list,
