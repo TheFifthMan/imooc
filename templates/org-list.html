@@ -4,7 +4,7 @@
 <section>
     <div class="wp">
         <ul  class="crumbs">
-            <li><a href="index.html">首页</a>></li>
+            <li><a href="{% url 'index' %}">首页</a>></li>
             <li>课程机构</li>
         </ul>
     </div>
@@ -36,7 +36,7 @@
 				</li>
 			</ul>
 		</div>
-		<div class="all">共<span class="key">15</span>家</div>
+		<div class="all">共<span class="key">{{ org_count }}</span>家</div>
 		<div class="butler_list company list">
 		<div class="layout">
 			<div class="head">

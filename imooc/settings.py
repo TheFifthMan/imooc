@@ -145,3 +145,4 @@ EMAIL_FROM= os.environ.get('MAIL_USERNAME')
 ACTIVATE_URL = "http://127.0.0.1:8000/"
 MEDIA_URL='/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+LIMIT = 10

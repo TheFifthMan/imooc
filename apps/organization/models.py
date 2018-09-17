@@ -1,5 +1,5 @@
 from django.db import models
-
+from course.models import Course
 # Create your models here.
 class OrgType(models.Model):
     name = models.CharField(max_length=20,verbose_name="机构类别")
@@ -23,7 +23,7 @@ class CourseOrganization(models.Model):
     address = models.CharField(max_length=150,verbose_name="地址")
     city = models.ForeignKey('CityDict',on_delete=models.CASCADE,related_name='organizations',verbose_name="所属城市")
     add_time = models.DateTimeField('添加时间',auto_now_add=True)
-
+    courses = models.ForeignKey(Course,null=True,blank=True,on_delete=models.CASCADE,related_name='org')
 
     def __str__(self):
         return self.name
