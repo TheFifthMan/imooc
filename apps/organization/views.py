@@ -12,6 +12,13 @@ class OrgListView(View):
         city_list = CityDict.objects.all()
         org_type_list = OrgType.objects.all()
         org_list = CourseOrganization.objects.all()
+        city = request.GET.get('city',1)
+        #org_type = request.GET.get('ty','')
+        try:
+            org_list = CourseOrganization.objects.filter(city=city)
+        except:
+            pass
+        # 分页
         paginator = Paginator(org_list,LIMIT)
         page = request.GET.get('page','1')
         result = paginator.page(page)
@@ -21,7 +28,7 @@ class OrgListView(View):
         return render(request,'org-list.html',
                             {'city_list':city_list,
                             'org_type_list':org_type_list,
-                            'org_list':result,
+                            'org_list':result.object_list,
                             'course_count':course_count,
                             'user_count':user_count,
                             'org_count':org_count,

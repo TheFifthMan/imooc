@@ -6,6 +6,7 @@ class OrgType(models.Model):
     add_time = models.DateTimeField(auto_created=True)
     org = models.ForeignKey('CourseOrganization',on_delete=models.CASCADE,related_name='org_type')
 
+
     def __str__(self):
         return self.name
     
