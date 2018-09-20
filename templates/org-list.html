@@ -43,8 +43,8 @@
 			<div class="head">
 				<ul class="tab_header">
 					<li class="active"><a href="?&city=">全部</a> </li>
-					<li class=""><a href="?sort=students&ct=&city=">学习人数 &#8595;</a></li>
-					<li class=""><a href="?sort=courses&ct=&city=">课程数 &#8595;</a></li>
+					<li class=""><a href="?sort=students&ty={{ty.pk}}&city={{cityobj.pk}}">学习人数/a></li>
+					<li class=""><a href="?sort=courses&ty={{ty.pk}}&city={{cityobj.pk}}">课程数</a></li>
 				</ul>
 			</div>
                 {% for org in org_list %}

@@ -23,9 +23,9 @@ class CourseOrganization(models.Model):
     address = models.CharField(max_length=150,verbose_name="地址")
     city = models.ForeignKey('CityDict',on_delete=models.CASCADE,related_name='city',verbose_name="城市")
     add_time = models.DateTimeField('添加时间',auto_now_add=True)
-    courses = models.ForeignKey(Course,null=True,blank=True,on_delete=models.CASCADE,related_name='org')
+    courses = models.IntegerField(default=0,verbose_name="课程数")
     orgtype = models.ForeignKey('OrgType',on_delete=models.CASCADE,related_name='org',verbose_name="机构类别")
-    
+    students = models.IntegerField(default=0,verbose_name="学生人数")
     
     def __str__(self):
         return self.name

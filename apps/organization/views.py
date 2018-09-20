@@ -26,7 +26,15 @@ class OrgListView(View):
         if city and ty:
             org_list = CourseOrganization.objects.filter(city=city,orgtype=ty)
 
-        hot_orgs = CourseOrganization.objects.all().order_by('click_num')
+        hot_orgs = CourseOrganization.objects.all().order_by('-click_num')[:3]
+
+        sort = request.GET.get('sort')
+        if sort == 'students':
+            org_list = org_list.order_by('-students')
+        
+        elif sort == 'courses':
+            org_list = org_list.order_by('-courses')
+            
         # 分页
         paginator = Paginator(org_list,LIMIT)
         page = request.GET.get('page','1')
