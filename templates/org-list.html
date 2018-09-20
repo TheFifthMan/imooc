@@ -31,7 +31,7 @@
 					<div class="cont">
                         <a href="?ct="><span class="active2">全部</span></a>
                             {% for city in city_list %}
-                            <a href="?city={{city.pk}}&ty="><span class="">{{ city.name }}</span></a>
+                            <a href="?city={{city.pk}}&ty="><span {% ifequal city cityobj %}class="active2"{% endifeuqal %}>{{ city.name }}</span></a>
                             {% endfor %}
 					</div>
 				</li>
