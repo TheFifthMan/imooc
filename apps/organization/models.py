@@ -2,8 +2,8 @@ from django.db import models
 from course.models import Course
 # Create your models here.
 class OrgType(models.Model):
-    name = models.CharField(max_length=20,verbose_name="机构类别")
-    add_time = models.DateTimeField(auto_created=True)
+    name = models.CharField(max_length=20,unique=True,verbose_name="机构类别")
+    add_time = models.DateTimeField(auto_now_add=True)
     org = models.ForeignKey('CourseOrganization',on_delete=models.CASCADE,related_name='org_type')
 
 
@@ -11,7 +11,7 @@ class OrgType(models.Model):
         return self.name
     
     class Meta:
-        db_table = 'org_type'
+        db_table = 'orgtype'
         verbose_name = '机构类别'
         verbose_name_plural = verbose_name
 
