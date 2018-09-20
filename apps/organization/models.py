@@ -4,8 +4,7 @@ from course.models import Course
 class OrgType(models.Model):
     name = models.CharField(max_length=20,unique=True,verbose_name="机构类别")
     add_time = models.DateTimeField(auto_now_add=True)
-    org = models.ForeignKey('CourseOrganization',on_delete=models.CASCADE,related_name='org_type')
-
+    #org = models.ForeignKey('CourseOrganization',on_delete=models.CASCADE,related_name='org_type')
 
     def __str__(self):
         return self.name
@@ -22,10 +21,12 @@ class CourseOrganization(models.Model):
     fav_nums = models.IntegerField(default=0,verbose_name="收藏次数")
     image = models.ImageField(upload_to='images/org/%Y/%m/%d',default='images/org/default.jpg')
     address = models.CharField(max_length=150,verbose_name="地址")
-    city = models.ForeignKey('CityDict',on_delete=models.CASCADE,related_name='organizations',verbose_name="所属城市")
+    city = models.ForeignKey('CityDict',on_delete=models.CASCADE,related_name='city',verbose_name="城市")
     add_time = models.DateTimeField('添加时间',auto_now_add=True)
     courses = models.ForeignKey(Course,null=True,blank=True,on_delete=models.CASCADE,related_name='org')
-
+    orgtype = models.ForeignKey('OrgType',on_delete=models.CASCADE,related_name='org',verbose_name="机构类别")
+    
+    
     def __str__(self):
         return self.name
 

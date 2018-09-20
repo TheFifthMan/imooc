@@ -19,9 +19,9 @@
 				<li>
 					<h2>机构类别</h2>
 					<div class="cont">
-                        <a href="?city="><span class="active2">全部</span></a>
+                        <a href="?ty=&city="><span {% ifequal ty '' %}class="active2" {% endifequal %}>全部</span></a>
                             {% for org_type in org_type_list %}
-                            <a href="?ty=pxjg&city="><span class="">{{ org_type.name }}</span></a>
+                            <a href="?ty={{org_type.pk}}&city={{ cityobj.pk }}"><span {% ifequal org_type ty %} class="active2" {% endifequal %}>{{ org_type.name }}</span></a>
                             {% endfor %}
 					</div>
 				</li>
@@ -29,9 +29,9 @@
 					<h2>所在地区</h2>
 					<div class="more">更多</div>
 					<div class="cont">
-                        <a href="?ct="><span class="active2">全部</span></a>
+                        <a href="?city=&ty="><span {% ifequal cityobj '' %}class="active2"{% endifequal %}>全部</span></a>
                             {% for city in city_list %}
-                            <a href="?city={{city.pk}}&ty="><span {% ifequal city cityobj %}class="active2"{% endifeuqal %}>{{ city.name }}</span></a>
+                            <a href="?city={{city.pk}}&ty={{ ty.pk }}"><span {% ifequal city cityobj %}class="active2"{% endifequal %}>{{ city.name }}</span></a>
                             {% endfor %}
 					</div>
 				</li>
@@ -116,32 +116,16 @@
 		<div class="right companyrank layout">
 			<div class="head">授课机构排名</div>
 
-            
+            {% for hot in hot_orgs %}
                 <dl class="des">
-                    <dt class="num fl">1</dt>
+                    <dt class="num fl">{{ hot.click_num}}</dt>
                     <dd>
-                        <a href="/company/2/"><h1>慕课网</h1></a>
-                        <p>北京市</p>
+                        <a href="/company/2/"><h1>{{ hot.name }}</h1></a>
+                        <p>{{ hot.city.name }}</p>
                     </dd>
                 </dl>
-            
-                <dl class="des">
-                    <dt class="num fl">2</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>慕课网2</h1></a>
-                        <p>深圳市</p>
-                    </dd>
-                </dl>
-            
-                <dl class="des">
-                    <dt class="num fl">3</dt>
-                    <dd>
-                        <a href="/company/2/"><h1>北京大学</h1></a>
-                        <p>北京市</p>
-                    </dd>
-                </dl>
-            
-
+            {% endfor %}
+               
 
 
 		</div>

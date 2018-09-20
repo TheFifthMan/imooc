@@ -12,13 +12,21 @@ class OrgListView(View):
         city_list = CityDict.objects.all()
         org_type_list = OrgType.objects.all()
         org_list = CourseOrganization.objects.all()
-        city = request.GET.get('city',0)
-        #org_type = request.GET.get('ty','')
-        try:
-            cityobj = CityDict.objects.get('city')
-            org_list = CourseOrganization.objects.filter(city=city)
-        except:
-            cityobj = ''
+        city = request.GET.get('city')
+        ty = request.GET.get('ty')
+        cityobj = ''
+        org_type = ''
+
+        if city:
+            cityobj = CityDict.objects.get(pk=city)
+            
+        if ty:
+             org_type = OrgType.objects.get(pk=ty)
+
+        if city and ty:
+            org_list = CourseOrganization.objects.filter(city=city,orgtype=ty)
+
+        hot_orgs = CourseOrganization.objects.all().order_by('click_num')
         # 分页
         paginator = Paginator(org_list,LIMIT)
         page = request.GET.get('page','1')
@@ -29,11 +37,13 @@ class OrgListView(View):
         return render(request,'org-list.html',
                             {'city_list':city_list,
                             'cityobj':cityobj,
+                            'ty':org_type,
                             'org_type_list':org_type_list,
                             'org_list':result.object_list,
                             'course_count':course_count,
                             'user_count':user_count,
                             'org_count':org_count,
+                            'hot_orgs':hot_orgs,
                             })
 
 
