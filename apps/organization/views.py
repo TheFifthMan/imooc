@@ -52,6 +52,7 @@ class OrgListView(View):
                             'user_count':user_count,
                             'org_count':org_count,
                             'hot_orgs':hot_orgs,
+                            'sort':sort,
                             })
 
 
@@ -64,8 +65,6 @@ class OrgDetailCourseView(View):
 class OrgDetailDescView(View):
      def get(self,request):
             return render(request,'org-detail-desc.html')
-
-
 
 
 class OrgDetailHomePageView(View):

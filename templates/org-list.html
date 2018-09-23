@@ -42,9 +42,9 @@
 		<div class="layout">
 			<div class="head">
 				<ul class="tab_header">
-					<li class="active"><a href="?&city=">全部</a> </li>
-					<li class=""><a href="?sort=students&ty={{ty.pk}}&city={{cityobj.pk}}">学习人数/a></li>
-					<li class=""><a href="?sort=courses&ty={{ty.pk}}&city={{cityobj.pk}}">课程数</a></li>
+					<li {% ifequal sort None %}class="active"{% endifequal %}><a href="">全部</a> </li>
+					<li {% ifequal sort 'students'%} class="active"{% endifequal %}><a href="?sort=students&ty={{ty.pk}}&city={{cityobj.pk}}">学习人数</a></li>
+					<li {% ifequal sort 'courses' %}class="active"{% endifequal %}><a href="?sort=courses&ty={{ty.pk}}&city={{cityobj.pk}}">课程数</a></li>
 				</ul>
 			</div>
                 {% for org in org_list %}
@@ -109,7 +109,6 @@
                 </div>
                 <p class="error company-tips" id="jsCompanyTips"></p>
 				<input class="btn" type="text" id="jsStayBtn" value="立即咨询 >" />
-            <input type='hidden' name='csrfmiddlewaretoken' value='5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy' />
             </form>
 		</div>
 
@@ -138,12 +137,16 @@
 <script>
     $(function(){
         $('#jsStayBtn').on('click', function(){
+            console.log($('#jsStayForm').serialize())
             $.ajax({
                 cache: false,
                 type: "POST",
                 url:"/org/add_ask/",
                 data:$('#jsStayForm').serialize(),
                 async: true,
+                beforeSend:function(xhr, settings){
+                    xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+                },
                 success: function(data) {
                     if(data.status == 'success'){
                         $('#jsStayForm')[0].reset();
